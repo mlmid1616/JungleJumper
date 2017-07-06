@@ -19,14 +19,14 @@ function startGame() {
     myGameArea.start();
     myGamePiece = new component(30, 30, "red", 10, 120);
     myObstacle  = new component(200, 10, "brown", 300, 120);
-    myBackground = new component(480, 270, "assets/cartoon_jungle1.jpg", 0, 0, "image");
+    myBackground = new component(680, 470, "assets/cartoon_jungle1.jpg", 0, 0, "image");
 }
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 680;
+        this.canvas.height = 470;
         this.context = this.canvas.getContext("2d");
         this.frameNo = 0;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -81,9 +81,9 @@ function component(width, height, color, x, y, type) {
     var myright = this.x + (this.width);
     var mytop = this.y;
     var mybottom = this.y + (this.height);
-    var otherleft = otherobj.x;
+    var otherleft = otherobj.x + 20;
     var otherright = otherobj.x + (otherobj.width);
-    var othertop = otherobj.y;
+    var othertop = otherobj.y + 20;
     var otherbottom = otherobj.y + (otherobj.height);
     var crash = true;
     if ((mybottom < othertop) ||
@@ -137,7 +137,7 @@ function updateGameArea() {
       // debugger
         x = myGameArea.canvas.width;
         y = Math.random() * 200 + 40;
-        myObstacles.push(new component(100, 10, "brown", x, y));
+        myObstacles.push(new component(100, 50, "assets/snek.png", x, y, "image"));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1;
