@@ -4,7 +4,7 @@
 
 Jungle Jumper is a 2D jump to live game that, not surprisingly, takes place in a Jungle.
 
-### Functionality & MVP  
+### Functionality & MVP
 
 With this Conway's Game of Life simulator, users will be able to:
 
@@ -15,13 +15,13 @@ With this Conway's Game of Life simulator, users will be able to:
 
 In addition, this project will include:
 
-- [ ] A modal that descirbes the epic mission the monkey will embark (getting bananas). 
+- [ ] A modal that describes the epic mission the monkey will embark (getting bananas). 
 - [ ] A production README
 
 ### Wireframes
 
 This app will consist of a single screen with game board, game controls, and nav links to the Github, my LinkedIn,
-and the About modal.  Game controls will include pause. 
+and the About modal.  Game controls will include pause.
 
 
 ### Architecture and Technologies
@@ -35,13 +35,13 @@ This project will be implemented with the following technologies:
 
 ### Implementation Timeline
 
-**Day 1**:  -- Learning -- 
+**Day 1**:  -- Learning --
   Goals for the day:
 
 - Learn how to employ the functionality of vanilla Javascript in a gaming context
 - Learn the basics of incorporating my images
 
-**Day 2**: -- Implementing Functionality -- 
+**Day 2**: -- Implementing Functionality --
   Goals for the day:
 
 - Build out the functionality of a moving screen
@@ -52,7 +52,7 @@ This project will be implemented with the following technologies:
   Goals for the day:
 
 - Find out how to replace my block with the monkey with an image
-- Find out how to replace my straight lines with branches 
+- Find out how to replace my straight lines with branches
 - Find out how to replace the backgroudn with a Jungle
 
 
