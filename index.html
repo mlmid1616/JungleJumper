@@ -21,12 +21,15 @@ body {
 var myGamePiece;
 var myBackground;
 var myObstacles = [];
+var myScore;
+var selected = "assets/modest_jungle.png"
 
 function startGame() {
     myGameArea.start();
     myGamePiece = new component(80, 70, "assets/chicken1.png", 10, 120, "image");
     myObstacle  = new component(200, 10, "brown", 300, 120);
-    myBackground = new component(680, 470, "assets/modest_jungle.png", 0, 0, "background");
+    myBackground = new component(680, 470, selected, 0, 0, "background");
+    myScore = new component("50px", "Consolas", "white", 280, 40, "text");
 }
 
 var myGameArea = {
@@ -85,8 +88,9 @@ function component(width, height, color, x, y, type) {
              this.height);
           }
         } else {
+          ctx.font = this.width + " " + this.height;
           ctx.fillStyle = color;
-          ctx.fillRect(this.x, this.y, this.width, this.height);
+          ctx.fillText(this.text, this.x, this.y);
         }
     }
 
@@ -108,12 +112,14 @@ function component(width, height, color, x, y, type) {
        const ceiling = myGameArea.canvas
       //  sideRight = myGameArea.canvas.width - this.width
        if (this.y > rockbottom) {
-           this.y = rockbottom;
+           this.y = 0;
+
+          //  accelerate(0.5);
           //  accelerate(-0.3)
        }
        if (this.y < 0 ) {
-         this.y = 0;
-         accelerate(0.2)
+         this.y = rockbottom;
+         accelerate(0.05)
        }
       if ( type == "image") {
         if (this.x < 0) {
@@ -124,13 +130,13 @@ function component(width, height, color, x, y, type) {
 
     this.crashWith = function(otherobj) {
       var myleft = this.x;
-      var myright = this.x + (this.width) - 800;
-      var mytop = this.y + 800;
-      var mybottom = this.y + (this.height);
+      var myright = this.x + (this.width) - 40;
+      var mytop = this.y - 60;
+      var mybottom = this.y + (this.height) - 40;
       var otherleft = otherobj.x;
-      var otherright = otherobj.x + (otherobj.width);
+      var otherright = otherobj.x + (otherobj.width) - 45;
       var othertop = otherobj.y;
-      var otherbottom = otherobj.y + (otherobj.height);
+      var otherbottom = otherobj.y + (otherobj.height) - 100;
       var crash = true;
       if ((mybottom < othertop) ||
              (mytop > otherbottom) ||
@@ -176,11 +182,12 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
+
             return;
         }
     }
     myGameArea.clear();
-    myBackground.speedX = -0.2;
+    myBackground.speedX = -0.1;
     myGameArea.frameNo += 1;
     myBackground.newPos();
     myBackground.update();
@@ -190,12 +197,12 @@ function updateGameArea() {
         y = Math.random() * 470;
         myObstacles.push(new component(100, 50, "assets/snek.png", x, y, "image"));
     }
-    if (megainterval(400) ) {
-      // debugger
-        x = myGameArea.canvas.width;
-        y = Math.random() * 470;
-        myObstacles.push(new component(200, 500, "assets/snek.png", x, y, "image"));
-    }
+    // if (megainterval(800) ) {
+    //   // debugger
+    //     x = myGameArea.canvas.width;
+    //     y = Math.random() * 470;
+    //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image"));
+    // }
 
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1;
@@ -207,14 +214,15 @@ function updateGameArea() {
         myObstacles[i].update();
     }
 
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1.5; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1.5; }
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2.0; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2.0; }
     if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 0.5;}
     if (myGameArea.keys && myGameArea.keys[38]) {
-      myGamePiece.speedY = -1.5;
+      myGamePiece.speedY = -2.0;
       accelerate(-0.1);
     }
-
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
 }
@@ -223,9 +231,28 @@ function accelerate(n) {
     myGamePiece.gravity = n;
 }
 
+function galactic(){
+  selected = "assets/space2.jpg";
+  startGame();
+}
+
+function jungle(){
+  selected = "assets/modest_jungle.png";
+  startGame();
+}
+
+function resume(){
+  selected = "assets/Resume.png";
+  startGame();
+}
+
+
+
 
 </script>
 <p>JUNGLE JUMPER!!!</p>
-<button onclick="">Galactic</button>
+<button onclick="galactic()">Galactic</button>
+<button onclick="jungle()">Jungle</button>
+<button onclick="resume()">Resume</button>
 </body>
 </html>
