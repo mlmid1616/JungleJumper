@@ -71,20 +71,23 @@ function component(width, height, color, x, y, type) {
     this.x = x;
     this.y = y;
     this.update = function() {
-    ctx = myGameArea.context;
-      if (type == "image" || type == "background") {
-        ctx.drawImage(this.image,
-        this.x,
-        this.y,
-        this.width, this.height);
-        if (type == "background") {
-                ctx.drawImage(this.image,
-                this.x + this.width, this.y, this.width, this.height);
-            }
-      } else {
-      ctx.fillStyle = color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-      }
+      ctx = myGameArea.context;
+        if (type == "image" || type == "background") {
+          ctx.drawImage(this.image,
+          this.x,
+          this.y,
+          this.width, this.height);
+          if (type == "background") {
+            ctx.drawImage(this.image,
+            this.x + this.width,
+            this.y,
+            this.width,
+             this.height);
+          }
+        } else {
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
 
     this.newPos = function() {
@@ -106,9 +109,11 @@ function component(width, height, color, x, y, type) {
       //  sideRight = myGameArea.canvas.width - this.width
        if (this.y > rockbottom) {
            this.y = rockbottom;
+          //  accelerate(-0.3)
        }
        if (this.y < 0 ) {
          this.y = 0;
+         accelerate(0.2)
        }
       if ( type == "image") {
         if (this.x < 0) {
@@ -118,22 +123,22 @@ function component(width, height, color, x, y, type) {
      }
 
     this.crashWith = function(otherobj) {
-    var myleft = this.x;
-    var myright = this.x + (this.width) - 800;
-    var mytop = this.y + 800;
-    var mybottom = this.y + (this.height);
-    var otherleft = otherobj.x;
-    var otherright = otherobj.x + (otherobj.width);
-    var othertop = otherobj.y;
-    var otherbottom = otherobj.y + (otherobj.height);
-    var crash = true;
-    if ((mybottom < othertop) ||
-           (mytop > otherbottom) ||
-           (myright < otherleft) ||
-           (myleft > otherright)) {
-       crash = false;
-    }
-    return crash;
+      var myleft = this.x;
+      var myright = this.x + (this.width) - 800;
+      var mytop = this.y + 800;
+      var mybottom = this.y + (this.height);
+      var otherleft = otherobj.x;
+      var otherright = otherobj.x + (otherobj.width);
+      var othertop = otherobj.y;
+      var otherbottom = otherobj.y + (otherobj.height);
+      var crash = true;
+      if ((mybottom < othertop) ||
+             (mytop > otherbottom) ||
+             (myright < otherleft) ||
+             (myleft > otherright)) {
+         crash = false;
+      }
+      return crash;
     }
 }
 //
@@ -194,6 +199,11 @@ function updateGameArea() {
 
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1;
+        if (myGamePiece.y > myObstacles[i].y ){
+          myObstacles[i].y += Math.random() * 0.4
+        } else {
+          myObstacles[i].y -= Math.random() * 0.4
+        }
         myObstacles[i].update();
     }
 
