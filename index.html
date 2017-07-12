@@ -14,11 +14,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       margin-right: 18%;
       margin-top: 10%;
     }
-
   body {
-    background: #c4ecea;
+    background: black;
   }
-
   button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -29,31 +27,33 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     display: inline-block;
     font-size: 16px;
   }
-
   /*.buttons {
     display: flex;
     margin-left: 30%;
     margin-right: 30%;
   }*/
-
   .special-links {
     display: flex;
     z-index: 1;
     position: absolute;
-    bottom: 90%;
+    top: 90%;
     left: 30%;
+  }
+
+  .logo {
+    z-index: 5;
+    position: absolute;
+    top: 30px;
+    left: 278px;
   }
 
 </style>
 </head>
 <body onload="startGame()">
 
-
-  <div class="special-links">
-    <a class="github-button" href="https://github.com/mlmid1616?tab=repositories" aria-label="Follow @ntkme on GitHub">Follow @ntkme</a>
-    <a href="https://www.linkedin.com/in/matthew-middleton-3301386a/" class="fa fa-linkedin-square" style="font-size:36px"></a>
-  </div>
-
+<div>
+  <img class="logo" src="assets/JungleJumper.png" alt="JungleJumper">
+</div>
 
 
 <script>
@@ -61,17 +61,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   var myBackground;
   var myObstacles = [];
   var myScore;
-  var selected = "assets/modest_jungle.png"
-
+  var selected = "assets/dark_forest.jpg"
   function startGame() {
       myGameArea.start();
       myGamePiece = new component(80, 70, "assets/chicken1.png", 10, 120, "image");
       myObstacle  = new component(200, 10, "brown", 300, 120);
       myBackground = new component(680, 470, selected, 0, 0, "background");
       myScore = new component("50px", "Consolas", "white", 220, 40, "text");
-
   }
-
   var myGameArea = {
       canvas : document.createElement("canvas"),
       start : function() {
@@ -134,20 +131,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
             ctx.fillText(this.text, this.x, this.y);
           }
       }
-
       this.newPos = function() {
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
-
         if (this.type == "background") {
             if (this.x == -(this.width)) {
                 this.x = 0;
             }
         }
       }
-
       this.hitBottom = function() {
          var rockbottom = myGameArea.canvas.height - this.height;
          const ceiling = myGameArea.canvas
@@ -165,7 +159,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
           }
         }
        }
-
       this.crashWith = function(otherobj) {
         // if (otherobj.giant) {
           var myleft = this.x;
@@ -195,13 +188,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   //     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
   //     return false;
   // }
-
   function updateGameArea() {
       var x, y;
       for (i = 0; i < myObstacles.length; i += 1) {
           if (myGamePiece.crashWith(myObstacles[i])) {
               myGameArea.stop();
-
               return;
           }
       }
@@ -222,17 +213,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       //     y = Math.random() * 470;
       //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image", true));
       // }
-
       for (i = 0; i < myObstacles.length; i += 1) {
           myObstacles[i].x += -1;
           if (myGamePiece.y > myObstacles[i].y ){
-            myObstacles[i].y += Math.random() * 0.8
+            myObstacles[i].y += Math.random() * 1
           } else {
-            myObstacles[i].y -= Math.random() * 0.8
+            myObstacles[i].y -= Math.random() * 1
           }
           myObstacles[i].update();
       }
-
       if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2.0; }
       if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2.0; }
       if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 0.5;}
@@ -245,21 +234,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       myGamePiece.newPos();
       myGamePiece.update();
   }
-
   function accelerate(n) {
       myGamePiece.gravity = n;
   }
-
   function galactic(){
     selected = "assets/space2.jpg";
     startGame();
   }
-
   function jungle(){
     selected = "assets/modest_jungle.png";
     startGame();
   }
-
   function resume(){
     selected = "assets/Resume.png";
     startGame();
@@ -270,6 +255,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   <button onclick="galactic()">Galactic</button>
   <button onclick="jungle()">Jungle</button>
   <button onclick="resume()">Resume</button>
+</div>
+
+<div class="special-links">
+  <a href="https://github.com/mlmid1616" class="fa fa-github" style="font-size:36px"></a>
+  <a href="https://www.linkedin.com/in/matthew-middleton-3301386a/" class="fa fa-linkedin-square" style="font-size:36px"></a>
 </div>
 
 </body>
