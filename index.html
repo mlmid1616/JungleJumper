@@ -5,6 +5,8 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Revalia" rel="stylesheet">
 <style>
   canvas {
       border:5px solid #c4ecea;
@@ -12,7 +14,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       justify-content: center;
       margin-left: 18%;
       margin-right: 18%;
-      margin-top: 10%;
+      margin-top: 15%;
     }
   body {
     background: black;
@@ -32,12 +34,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     margin-left: 30%;
     margin-right: 30%;
   }*/
+
+  .instructions {
+    position: absolute;
+    font-family: 'Revalia', cursive;
+    bottom: 555px;
+    color: white;
+    left: 412px;
+  }
   .special-links {
     display: flex;
     z-index: 1;
     position: absolute;
     top: 90%;
     left: 30%;
+  }
+
+  .test {
+    font-size: 30px;
+    color:white;
+    position: absolute;
+    bottom: 80px;
+    left: 230px;
+    height: 470px;
+    width: 680px;
+
+  }
+
+  .test:focus {
+    color: transparent;
+    outline: none;
+    position: absolute;
+    top: 400px;
+  }
+
+  #entry-snakes {
+    height: 470px;
+    width: 680px;
+  }
+
+  #entry-snakes:focus  {
+    color: transparent;
+    outline: none;
+    opacity: .0;
+    position: absolute;
+    left: 250px;
+    top: 120px;
   }
 
   .logo {
@@ -49,28 +91,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 
 </style>
 </head>
-<body onload="entryScreen()">
+
+
+<body onClick="startGame()">
 
 <div>
   <img class="logo" src="assets/JungleJumper.png" alt="JungleJumper">
 </div>
 
 
-<script>
 
-  function entryScreen(){
+<script id="game">
 
-    myEntry = new component(680, 470, "assets/dark_forest.jpg", 0, 0, "background");
-  }
 
-  var myGamePiece;
-  var myBackground;
-  var myObstacles = [];
-  var myScore;
-  var myFire;
-  var selected = "assets/dark_forest.jpg"
+var myGamePiece;
+var myBackground;
+var myScore;
+var myFire;
+var selected = "assets/dark_forest.jpg"
+var myObstacles = [];
 
   function startGame() {
+      myObstacles = [];
       myGameArea.start();
       myGamePiece = new component(80, 70, "assets/chicken1.png", 10, 120, "image");
       myObstacle  = new component(200, 10, "brown", 300, 120);
@@ -84,8 +126,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
           this.canvas.height = 470;
           this.context = this.canvas.getContext("2d");
           this.frameNo = 0;
+          if (!this.interval) {
+            this.interval = setInterval(updateGameArea, 20);
+          }
           document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-          this.interval = setInterval(updateGameArea, 20);
           window.addEventListener('keydown', function (e) {
               myGameArea.keys = (myGameArea.keys || []);
               myGameArea.keys[e.keyCode] = (e.type == "keydown");
@@ -94,11 +138,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
               myGameArea.keys[e.keyCode] = (e.type == "keydown");
               accelerate(0.1);
           })
+
+
       },
       clear : function(){
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
       stop : function() {
+          console.log(this.interval)
           clearInterval(this.interval);
       }
   }
@@ -139,6 +186,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
             ctx.fillText(this.text, this.x, this.y);
           }
       }
+
       this.newPos = function() {
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
@@ -150,6 +198,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
             }
         }
       }
+
       this.hitBottom = function() {
          var rockbottom = myGameArea.canvas.height - this.height;
          const ceiling = myGameArea.canvas
@@ -167,8 +216,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
           }
         }
        }
+
       this.crashWith = function(otherobj) {
-        // if (otherobj.giant) {
           var myleft = this.x;
           var myright = this.x + (this.width) - 40;
           var mytop = this.y - 20;
@@ -185,7 +234,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
             crash = false;
           }
           return crash;
-        }
+      }
   }
   //
   function everyinterval(n) {
@@ -198,32 +247,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   // }
 
 
+  var crashed = false;
   function updateGameArea() {
-      var x, y;
-      for (i = 0; i < myObstacles.length; i += 1) {
+    debugger
+      if ( !crashed ) {
+        var x, y;
+        for (i = 0; i < myObstacles.length; i += 1) {
           if (myGamePiece.crashWith(myObstacles[i])) {
-              myGameArea.stop();
-              return;
+            myGameArea.stop();
+            return;
           }
-      }
-      myGameArea.clear();
-      myBackground.speedX = -0.1;
-      myGameArea.frameNo += 1;
-      myBackground.newPos();
-      myBackground.update();
-      if (myGameArea.frameNo == 1 || everyinterval(100)) {
-        // debugger
+        }
+        myGameArea.clear();
+        myBackground.speedX = -0.1;
+        myGameArea.frameNo += 1;
+        myBackground.newPos();
+        myBackground.update();
+        if (myGameArea.frameNo == 1 || everyinterval(100)) {
+          // debugger
           x = myGameArea.canvas.width;
           y = Math.random() * 470;
           myObstacles.push(new component(100, 50, "assets/snek.png", x, y, "image", false));
-      }
-      // if (megainterval(800) ) {
-      //   // debugger
-      //     x = myGameArea.canvas.width;
-      //     y = Math.random() * 470;
-      //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image", true));
-      // }
-      for (i = 0; i < myObstacles.length; i += 1) {
+        }
+        // if (megainterval(800) ) {
+        //   // debugger
+        //     x = myGameArea.canvas.width;
+        //     y = Math.random() * 470;
+        //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image", true));
+        // }
+        for (i = 0; i < myObstacles.length; i += 1) {
           myObstacles[i].x += -1;
           if (myGamePiece.y > myObstacles[i].y ){
             myObstacles[i].y += Math.random() * 1
@@ -231,19 +283,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
             myObstacles[i].y -= Math.random() * 1
           }
           myObstacles[i].update();
+        }
+        if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2.0; }
+        if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2.0; }
+        if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 0.5;}
+        if (myGameArea.keys && myGameArea.keys[38]) {
+          myGamePiece.speedY = -2.0;
+          accelerate(-0.1);
+        }
+        myScore.text="SCORE: " + myGameArea.frameNo;
+        myScore.update();
+        myGamePiece.newPos();
+        myGamePiece.update();
       }
-      if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -2.0; }
-      if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 2.0; }
-      if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 0.5;}
-      if (myGameArea.keys && myGameArea.keys[38]) {
-        myGamePiece.speedY = -2.0;
-        accelerate(-0.1);
-        fire();
-      }
-      myScore.text="SCORE: " + myGameArea.frameNo;
-      myScore.update();
-      myGamePiece.newPos();
-      myGamePiece.update();
   }
 
   function fire(){
@@ -275,7 +327,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     selected = "assets/Resume.png";
     startGame();
   }
+
+//   window.requestAnimFrame = function(){
+//     return (
+//         window.requestAnimationFrame       ||
+//         window.webkitRequestAnimationFrame ||
+//         window.mozRequestAnimationFrame    ||
+//         window.oRequestAnimationFrame      ||
+//         window.msRequestAnimationFrame     ||
+//         function(/* function */ callback){
+//             window.setTimeout(callback, 1000 / 60);
+//         }
+//     );
+// }();
 </script>
+
+<div class="instructions">
+  <p>CLICK THEN USE ARROW KEYS</p>
+</div>
+
+<div class="test" tabindex="0">
+  <img tabindex="0" id="entry-snakes" src="assets/intro_sneks.png">
+</div>
 
 <div class="buttons">
   <button onclick="galactic()">Galactic</button>
