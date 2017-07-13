@@ -49,7 +49,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 
 </style>
 </head>
-<body onload="startGame()">
+<body onload="entryScreen()">
 
 <div>
   <img class="logo" src="assets/JungleJumper.png" alt="JungleJumper">
@@ -57,11 +57,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 
 
 <script>
+
+  function entryScreen(){
+
+    myEntry = new component(680, 470, "assets/dark_forest.jpg", 0, 0, "background");
+  }
+
   var myGamePiece;
   var myBackground;
   var myObstacles = [];
   var myScore;
+  var myFire;
   var selected = "assets/dark_forest.jpg"
+
   function startGame() {
       myGameArea.start();
       myGamePiece = new component(80, 70, "assets/chicken1.png", 10, 120, "image");
@@ -188,6 +196,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   //     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
   //     return false;
   // }
+
+
   function updateGameArea() {
       var x, y;
       for (i = 0; i < myObstacles.length; i += 1) {
@@ -228,24 +238,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       if (myGameArea.keys && myGameArea.keys[38]) {
         myGamePiece.speedY = -2.0;
         accelerate(-0.1);
+        fire();
       }
       myScore.text="SCORE: " + myGameArea.frameNo;
       myScore.update();
       myGamePiece.newPos();
       myGamePiece.update();
   }
+
+  function fire(){
+    var myFire;
+    var fireX = myGamePiece.x;
+    var fireY = myGamePiece.y + 30;
+    myFire = new component(fireX, fireY, "assets/fire.png", 10, 120, "image");
+
+  }
+
   function accelerate(n) {
       myGamePiece.gravity = n;
   }
   function galactic(){
+    myGameArea.clear();
+    myGameArea.stop();
     selected = "assets/space2.jpg";
     startGame();
   }
   function jungle(){
+    myGameArea.clear();
+    myGameArea.stop();
     selected = "assets/modest_jungle.png";
     startGame();
   }
   function resume(){
+    myGameArea.clear();
+    myGameArea.stop();
     selected = "assets/Resume.png";
     startGame();
   }
