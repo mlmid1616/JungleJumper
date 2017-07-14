@@ -147,6 +147,7 @@ var myObstacles = [];
       stop : function() {
           console.log(this.interval)
           clearInterval(this.interval);
+          this.interval = setInterval(updateGameArea, 20);
       }
   }
   //
