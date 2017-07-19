@@ -12,9 +12,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
       border:5px solid #c4ecea;
       padding: 10px;
       justify-content: center;
-      margin-left: 18%;
-      margin-right: 18%;
-      margin-top: 15%;
+      margin-left: 250px;
+      margin-right: 200px;
+      margin-top: 220px;
     }
   body {
     background: black;
@@ -29,36 +29,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     display: inline-block;
     font-size: 16px;
   }
-  /*.buttons {
-    display: flex;
-    margin-left: 30%;
-    margin-right: 30%;
-  }*/
 
   .instructions {
     position: absolute;
     font-family: 'Revalia', cursive;
-    bottom: 555px;
     color: white;
     left: 412px;
+    top: 85px;
   }
+
   .special-links {
     display: flex;
     z-index: 1;
     position: absolute;
-    top: 90%;
-    left: 30%;
+    top: 145px;
+    left: 550px;
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    padding:
+  }
+
+  .special-links a {
+    color: green;
+    padding-left: 10px;
+    border-bottom: none;
+    text-decoration: none;
+  }
+
+  .logo {
+    z-index: 5;
+    position: absolute;
+    top: 30px;
+    left: 278px;
   }
 
   .test {
     font-size: 30px;
     color:white;
     position: absolute;
-    bottom: 80px;
-    left: 230px;
+    /*top: 80px;
+    left: 230px;*/
     height: 470px;
     width: 680px;
-
+    margin-left: 250px;
+    margin-right: 200px;
+    margin-top: 220px;
   }
 
   .test:focus {
@@ -250,7 +266,6 @@ var myObstacles = [];
 
   var crashed = false;
   function updateGameArea() {
-    debugger
       if ( !crashed ) {
         var x, y;
         for (i = 0; i < myObstacles.length; i += 1) {
@@ -264,14 +279,14 @@ var myObstacles = [];
         myGameArea.frameNo += 1;
         myBackground.newPos();
         myBackground.update();
-        if (myGameArea.frameNo == 1 || everyinterval(100)) {
-          // debugger
+        if (myGameArea.frameNo == 1 || everyinterval(75)) {
+          //
           x = myGameArea.canvas.width;
           y = Math.random() * 470;
           myObstacles.push(new component(100, 50, "assets/snek.png", x, y, "image", false));
         }
         // if (megainterval(800) ) {
-        //   // debugger
+        //   // ""
         //     x = myGameArea.canvas.width;
         //     y = Math.random() * 470;
         //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image", true));
@@ -299,29 +314,25 @@ var myObstacles = [];
       }
   }
 
-  function fire(){
-    var myFire;
-    var fireX = myGamePiece.x;
-    var fireY = myGamePiece.y + 30;
-    myFire = new component(fireX, fireY, "assets/fire.png", 10, 120, "image");
-
-  }
 
   function accelerate(n) {
       myGamePiece.gravity = n;
   }
+
   function galactic(){
     myGameArea.clear();
     myGameArea.stop();
     selected = "assets/space2.jpg";
     startGame();
   }
+
   function jungle(){
     myGameArea.clear();
     myGameArea.stop();
     selected = "assets/modest_jungle.png";
     startGame();
   }
+
   function resume(){
     myGameArea.clear();
     myGameArea.stop();
@@ -329,33 +340,21 @@ var myObstacles = [];
     startGame();
   }
 
-//   window.requestAnimFrame = function(){
-//     return (
-//         window.requestAnimationFrame       ||
-//         window.webkitRequestAnimationFrame ||
-//         window.mozRequestAnimationFrame    ||
-//         window.oRequestAnimationFrame      ||
-//         window.msRequestAnimationFrame     ||
-//         function(/* function */ callback){
-//             window.setTimeout(callback, 1000 / 60);
-//         }
-//     );
-// }();
 </script>
 
 <div class="instructions">
-  <p>CLICK THEN USE ARROW KEYS</p>
+  <p>CLICK THEN USE ARROW KEYS, HINT: YOU CAN GO THROUGH THE TOP AND BOTTOM</p>
 </div>
 
 <div class="test" tabindex="0">
   <img tabindex="0" id="entry-snakes" src="assets/intro_sneks.png">
 </div>
 
-<div class="buttons">
+<!-- <div class="buttons">
   <button onclick="galactic()">Galactic</button>
   <button onclick="jungle()">Jungle</button>
   <button onclick="resume()">Resume</button>
-</div>
+</div> -->
 
 <div class="special-links">
   <a href="https://github.com/mlmid1616" class="fa fa-github" style="font-size:36px"></a>
