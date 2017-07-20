@@ -163,7 +163,7 @@ var myGameOver;
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
       stop : function() {
-          console.log(this.interval)
+          
           myGameOver.text = "Game Over :( Click to try Again!"
           myGameOver.update();
           clearInterval(this.interval);
@@ -238,34 +238,62 @@ var myGameOver;
         }
        }
 
-      this.crashWith = function(otherobj) {
-          var myleft = this.x;
-          var myright = this.x + (this.width) - 40;
-          var mytop = this.y - 20;
-          var mybottom = this.y + (this.height) - 40;
-          var otherleft = otherobj.x;
-          var otherright = otherobj.x + (otherobj.width) - 45;
-          var othertop = otherobj.y;
-          var otherbottom = otherobj.y + (otherobj.height) - 40;
-          var crash = true;
-          if ((mybottom < othertop) ||
-          (mytop > otherbottom) ||
-          (myright < otherleft) ||
-          (myleft > otherright)) {
-            crash = false;
-          }
-          return crash;
-      }
+       this.crashWith = function(otherobj) {
+           if (otherobj.width > 300) {
+             var myleft = this.x + 180;
+             var myright = this.x + (this.width) - 70;
+             var mytop = this.y + 160;
+             var mybottom = this.y + (this.height) - 140;
+             var otherleft = otherobj.x;
+             var otherright = otherobj.x + (otherobj.width);
+             var othertop = otherobj.y;
+             var otherbottom = otherobj.y + (otherobj.height);
+             var crash = true;
+             if ((mybottom < othertop) ||
+             (mytop > otherbottom) ||
+             (myright < otherleft) ||
+             (myleft > otherright)) {
+               crash = false;
+             }
+           } else {
+             var myleft = this.x + 20;
+             var myright = this.x + (this.width) - 45;
+             var mytop = this.y + 35;
+             var mybottom = this.y + (this.height) - 35;
+             var otherleft = otherobj.x;
+             var otherright = otherobj.x + (otherobj.width);
+             var othertop = otherobj.y;
+             var otherbottom = otherobj.y + (otherobj.height);
+             var crash = true;
+             if ((mybottom < othertop) ||
+             (mytop > otherbottom) ||
+             (myright < otherleft) ||
+             (myleft > otherright)) {
+               crash = false;
+             }
+           }
+           return crash;
+         }
+
   }
   //
   function everyinterval(n) {
       if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
       return false;
   }
-  // function megainterval(n) {
-  //     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
-  //     return false;
-  // }
+
+  function megainterval(n) {
+      if (myGameArea.frameNo === 500) return true;
+      if (myGameArea.frameNo === 1900) return true;
+      if (myGameArea.frameNo === 2500) return true;
+      if (myGameArea.frameNo === 3000) return true;
+      if (myGameArea.frameNo === 3200) return true;
+      if (myGameArea.frameNo === 3300) return true;
+      if (myGameArea.frameNo === 3900) return true;
+
+      if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+      return false;
+  }
 
 
   var crashed = false;
@@ -289,12 +317,14 @@ var myGameOver;
           y = Math.random() * 470;
           myObstacles.push(new component(100, 50, "assets/snek.png", x, y, "image", false));
         }
-        // if (megainterval(800) ) {
-        //   // ""
-        //     x = myGameArea.canvas.width;
-        //     y = Math.random() * 470;
-        //     myObstacles.push(new component(500, 500, "assets/snek.png", x, y, "image", true));
-        // }
+
+        if (megainterval(800) ) {
+          // ""
+            x = myGameArea.canvas.width;
+            y = Math.random() * 470;
+            myObstacles.push(new component(600, 400, "assets/snek.png", x, y, "image"));
+        }
+
         for (i = 0; i < myObstacles.length; i += 1) {
           myObstacles[i].x += -1;
           if (myGamePiece.y > myObstacles[i].y ){
@@ -346,11 +376,6 @@ var myGameOver;
     startGame();
   }
 
-  function myGoodbye() {
-    myGameOver.text = "Game Over! Click once more"
-    myGameOver.update();
-    alert("hmm");
-  }
 
 </script>
 
