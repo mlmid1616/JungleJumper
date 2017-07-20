@@ -9,15 +9,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 <link href="https://fonts.googleapis.com/css?family=Revalia" rel="stylesheet">
 <style>
   canvas {
-      border:5px solid #c4ecea;
+      border-bottom:10px solid #c4ecea;
+      border-top: 10px solid #c4ecea;
       padding: 10px;
       justify-content: center;
-      margin-left: 250px;
+      margin-left: 180px;
       margin-right: 200px;
-      margin-top: 220px;
+      margin-top: 90px;
     }
   body {
-    background: black;
+    background: url("assets/moving_forest.gif");
+    overflow: hidden;
+
   }
   button {
     background-color: #4CAF50; /* Green */
@@ -34,16 +37,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     position: absolute;
     font-family: 'Revalia', cursive;
     color: white;
-    left: 412px;
-    top: 85px;
+    left: 200px;
+    top: 620px;
+    font-size: 12px;
   }
 
   .special-links {
     display: flex;
     z-index: 1;
     position: absolute;
-    top: 145px;
-    left: 550px;
+    top: 620px;
+    left: 590px;
     display: flex;
     flex-direction: row;
     width: 200px;
@@ -64,17 +68,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
     left: 278px;
   }
 
-  .test {
+  .welcome {
     font-size: 30px;
     color:white;
     position: absolute;
     /*top: 80px;
     left: 230px;*/
-    height: 470px;
-    width: 680px;
-    margin-left: 250px;
+    margin-left: 180px;
     margin-right: 200px;
-    margin-top: 220px;
+    margin-top: 90px;
   }
 
   .test:focus {
@@ -86,7 +88,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 
   #entry-snakes {
     height: 470px;
-    width: 680px;
+    width: 810px;
   }
 
   #entry-snakes:focus  {
@@ -133,14 +135,14 @@ var myGameOver;
       myGameArea.start();
       myGamePiece = new component(80, 70, "assets/chicken1.png", 10, 120, "image");
       myObstacle  = new component(200, 10, "brown", 300, 120);
-      myBackground = new component(680, 470, selected, 0, 0, "background");
-      myScore = new component("50px", "Consolas", "white", 220, 40, "text");
-      myGameOver = new component("35px", "Consolas", "white", 40, 150, "text");
+      myBackground = new component(810, 470, selected, 0, 0, "background");
+      myScore = new component("50px", "Consolas", "white", 290, 40, "text");
+      myGameOver = new component("35px", "Consolas", "white", 40, 450, "text");
   }
   var myGameArea = {
       canvas : document.createElement("canvas"),
       start : function() {
-          this.canvas.width = 680;
+          this.canvas.width = 810;
           this.canvas.height = 470;
           this.context = this.canvas.getContext("2d");
           this.frameNo = 0;
@@ -163,7 +165,7 @@ var myGameOver;
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
       stop : function() {
-          
+
           myGameOver.text = "Game Over :( Click to try Again!"
           myGameOver.update();
           clearInterval(this.interval);
@@ -180,7 +182,7 @@ var myGameOver;
       this.gamearea = myGameArea;
       this.width = width;
       this.height = height;
-      this.gravity = 0.02;
+      this.gravity = 0.01;
       this.gravitySpeed = 0;
       this.speedX = 0;
       this.speedY = 0;
@@ -380,10 +382,10 @@ var myGameOver;
 </script>
 
 <div class="instructions">
-  <p>CLICK THEN USE ARROW KEYS</p>
+  <p>USE ARROW KEYS TO MOVE, START BY HOLDING UP!</p>
 </div>
 s
-<div class="test" tabindex="0">
+<div class="welcome" tabindex="0">
   <img tabindex="0" id="entry-snakes" src="assets/intro_sneks.png">
 </div>
 
