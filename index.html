@@ -126,6 +126,7 @@ var myScore;
 var myFire;
 var selected = "assets/dark_forest.jpg"
 var myObstacles = [];
+var myGameOver;
 
   function startGame() {
       myObstacles = [];
@@ -134,6 +135,7 @@ var myObstacles = [];
       myObstacle  = new component(200, 10, "brown", 300, 120);
       myBackground = new component(680, 470, selected, 0, 0, "background");
       myScore = new component("50px", "Consolas", "white", 220, 40, "text");
+      myGameOver = new component("35px", "Consolas", "white", 40, 150, "text");
   }
   var myGameArea = {
       canvas : document.createElement("canvas"),
@@ -162,6 +164,8 @@ var myObstacles = [];
       },
       stop : function() {
           console.log(this.interval)
+          myGameOver.text = "Game Over :( Click to try Again!"
+          myGameOver.update();
           clearInterval(this.interval);
           this.interval = setInterval(updateGameArea, 20);
       }
@@ -309,6 +313,8 @@ var myObstacles = [];
         }
         myScore.text="SCORE: " + myGameArea.frameNo;
         myScore.update();
+
+
         myGamePiece.newPos();
         myGamePiece.update();
       }
@@ -338,6 +344,12 @@ var myObstacles = [];
     myGameArea.stop();
     selected = "assets/Resume.png";
     startGame();
+  }
+
+  function myGoodbye() {
+    myGameOver.text = "Game Over! Click once more"
+    myGameOver.update();
+    alert("hmm");
   }
 
 </script>
